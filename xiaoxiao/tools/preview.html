@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<base href="/" />
+<title>xiaoxiaolei-002 preview</title>
+<style>
+  html, body { margin: 0; background: #222; }
+  #stage { width: 390px; height: 844px; margin: 0 auto; position: relative; }
+  canvas { display: block; touch-action: none; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+  const W = 390;
+  const H = 844;
+  window.GameGlobal = window;
+  const stage = document.getElementById('stage');
+  let primary = null;
+  const listeners = { start: [], move: [], end: [], cancel: [] };
+  const store = {};
+  window.wx = {
+    createCanvas() {
+      const c = document.createElement('canvas');
+      if (!primary) {
+        primary = c;
+        stage.appendChild(c);
+      }
+      return c;
+    },
+    createImage() { return new Image(); },
+    getSystemInfoSync() {
+      return {
+        windowWidth: W, windowHeight: H, screenWidth: W, screenHeight: H,
+        statusBarHeight: 44, pixelRatio: 2,
+        safeArea: { top: 44, bottom: H - 34, left: 0, right: W },
+      };
+    },
+    getMenuButtonBoundingClientRect() {
+      return { left: W - 97, right: W - 10, top: 50, bottom: 82, width: 87, height: 32 };
+    },
+    onTouchStart(cb) { listeners.start.push(cb); },
+    onTouchMove(cb) { listeners.move.push(cb); },
+    onTouchEnd(cb) { listeners.end.push(cb); },
+    onTouchCancel(cb) { listeners.cancel.push(cb); },
+    createInnerAudioContext() {
+      const el = new Audio();
+      el.preload = 'auto';
+      return {
+        get src() { return el.src; },
+        set src(v) { el.src = v; },
+        get loop() { return el.loop; },
+        set loop(v) { el.loop = !!v; },
+        play() { const p = el.play(); if (p && p.catch) p.catch(() => {}); },
+        pause() { el.pause(); },
+        stop() { el.pause(); el.currentTime = 0; },
+        seek(t) { el.currentTime = Number(t) || 0; },
+        destroy() { el.pause(); el.removeAttribute('src'); el.load(); },
+        onEnded(cb) { el.addEventListener('ended', cb); },
+        onError(cb) { el.addEventListener('error', cb); },
+      };
+    },
+    getStorageSync(k) { return store[k] == null ? '' : store[k]; },
+    setStorageSync(k, v) { store[k] = v; },
+    removeStorageSync(k) { delete store[k]; },
+    showToast(o) { console.log('[toast]', o && o.title); },
+    vibrateShort() {},
+    onShow() {},
+    onHide() {},
+  };
+  function fire(kind, e) {
+    const r = primary.getBoundingClientRect();
+    const t = { clientX: e.clientX - r.left, clientY: e.clientY - r.top };
+    const ev = kind === 'end' ? { touches: [], changedTouches: [t] } : { touches: [t], changedTouches: [t] };
+    listeners[kind].forEach((cb) => cb(ev));
+  }
+  window.__touch = (kind, x, y) => {
+    const t = { clientX: x, clientY: y };
+    const ev = kind === 'end' ? { touches: [], changedTouches: [t] } : { touches: [t], changedTouches: [t] };
+    listeners[kind].forEach((cb) => cb(ev));
+  };
+  let down = false;
+  document.addEventListener('pointerdown', (e) => { if (e.target !== primary) return; down = true; fire('start', e); });
+  document.addEventListener('pointermove', (e) => { if (down) fire('move', e); });
+  document.addEventListener('pointerup', (e) => { if (!down) return; down = false; fire('end', e); });
+</script>
+<script type="module">
+  const { default: startApp } = await import('/src/boot/launch.js');
+  window.__app = startApp();
+</script>
+</body>
+</html>

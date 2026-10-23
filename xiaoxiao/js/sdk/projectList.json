@@ -1,0 +1,148 @@
+[
+  {
+    "appId": "wxe1d41b93e7d8c79d",
+    "appName": "弹射超解压",
+    "privacyPolicy": "",
+    "userPolicy": "",
+    "requestHTTPS": "https://dy.szhcyg.cn/",
+    "trackHTTPS": "https://md.szhcyg.cn/",
+    "advertis": [
+      {
+        "code": "default_reward",
+        "type": 1,
+        "adUnitId": "adunit-5a0723301f5b5f4b",
+        "adPlacementName": "默认激励视频广告位"
+      },
+      {
+        "code": "entry_reward",
+        "type": 1,
+        "adUnitId": "adunit-5a0723301f5b5f4b",
+        "adPlacementName": "直投入场激励"
+      },
+      {
+        "code": "default_interstitial",
+        "type": 2,
+        "adUnitId": "adunit-191f4d2d13bd6cea",
+        "adPlacementName": "默认插屏广告位"
+      },
+      {
+        "code": "entry_interstitial",
+        "type": 2,
+        "adUnitId": "adunit-191f4d2d13bd6cea",
+        "adPlacementName": "直投入场插屏"
+      },
+      {
+        "code": "chest_feed",
+        "type": 6,
+        "style": {
+          "top": 500,
+          "left": 0,
+          "width": 350
+        },
+        "adUnitId": "adunit-1a7bdaa16c78f1c3",
+        "adPlacementName": "宝箱按钮位原生模板"
+      },
+      {
+        "code": "chest_grid",
+        "type": 7,
+        "style": {
+          "top": 80,
+          "left": 0,
+          "width": 60
+        },
+        "adUnitId": "adunit-fa3bb70f3d655030",
+        "adPlacementName": "宝箱弹窗右上格子"
+      },
+      {
+        "code": "revocation_reward",
+        "type": 1,
+        "adUnitId": "adunit-5a0723301f5b5f4b",
+        "adPlacementName": "撤销道具激励"
+      },
+      {
+        "code": "shuffle_reward",
+        "type": 1,
+        "adUnitId": "adunit-5a0723301f5b5f4b",
+        "adPlacementName": "洗牌道具激励"
+      },
+      {
+        "code": "misun_reward",
+        "type": 1,
+        "adUnitId": "adunit-5a0723301f5b5f4b",
+        "adPlacementName": "方块点击累计激励"
+      },
+      {
+        "code": "default_game_native",
+        "type": 6,
+        "style": {
+          "top": 120,
+          "left": 0,
+          "width": 350
+        },
+        "adUnitId": "adunit-1a7bdaa16c78f1c3",
+        "adPlacementName": "默认原生模板广告位（小游戏）"
+      },
+      {
+        "code": "game_native_001",
+        "type": 6,
+        "interval": 10,
+        "style": {
+          "top": 500,
+          "left": 0,
+          "width": 350
+        },
+        "adUnitId": "adunit-1a7bdaa16c78f1c3",
+        "adPlacementName": "游戏界面底部原生模板"
+      },
+      {
+        "code": "default_grid",
+        "type": 7,
+        "style": {
+          "top": 280,
+          "left": 0,
+          "width": 300
+        },
+        "adUnitId": "adunit-fa3bb70f3d655030",
+        "adPlacementName": "默认格子广告位"
+      }
+    ],
+    "desc": "自研项目-001"
+  },{
+    appId: 'wx46ab8972bac48eb9',
+    appName: '别杠行不行',
+    privacyPolicy: '',
+    userPolicy: '',
+    requestHTTPS: 'https://dy.szhcyg.cn/',
+    trackHTTPS: 'https://md.szhcyg.cn/',
+    cdnHTTPS: "https://cdn.szhcyg.cn/",
+    advertis: [
+      {
+        code: 'default_reward',
+        type: 1,
+        adUnitId: 'adunit-a20e4d42bb40fd8f',
+        adPlacementName: '默认激励视频广告位',
+      },
+      {
+        code: 'default_interstitial',
+        type: 2,
+        adUnitId: 'adunit-643493de5c233ff8',
+        adPlacementName: '默认插屏广告位',
+      },
+      {
+        code: 'default_game_native',
+        type: 6,
+        style: { top: 120, left: 0, width: 350 },
+        adUnitId: 'adunit-c0085e857bc20bd3',
+        adPlacementName: '默认原生模板广告位（小游戏）',
+      },
+      {
+        code: 'default_grid',
+        type: 7,
+        style: { top: 280, left: 0, width: 300 },
+        adUnitId: 'adunit-5eb34070abdf3362',
+        adPlacementName: '默认格子广告位',
+      },
+    ],
+    desc: '自研项目-002',
+  }
+]

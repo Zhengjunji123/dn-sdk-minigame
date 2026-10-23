@@ -1,0 +1,67 @@
+{
+  "enable": {
+    "local": true,
+    "preview": true,
+    "upload": true
+  },
+  "watermark": {
+    "name": "水印保护",
+    "files": []
+  },
+  "obfuscation": {
+    "name": "代码混淆",
+    "tasks": [
+      {
+        "level": 1,
+        "files": [
+          "src/board/puzzle-core.js",
+          "src/board/cell-ops.js",
+          "src/board/chapter-data.js",
+          "src/board/grid-rules.js",
+          "src/board/chance.js",
+          "src/screens/arena.js",
+          "src/screens/arena-chrome.js",
+          "src/paint/grid-paint.js",
+          "src/paint/ink.js",
+          "src/paint/burst.js",
+          "src/host/sound-bus.js",
+          "src/monetize/entry-pipe.js",
+          "src/monetize/entry-helpers.js",
+          "src/monetize/treasure.js",
+          "src/monetize/arena-ads.js",
+          "src/monetize/tip-reward.js",
+          "src/monetize/chapter-quiz.js"
+        ]
+      },
+      {
+        "level": 2,
+        "files": [
+          "src/screens/splash.js",
+          "src/screens/lobby.js",
+          "src/nav/flow.js",
+          "src/paint/rail-panel.js",
+          "src/paint/rail-assets.js",
+          "src/paint/media.js",
+          "src/paint/chips.js",
+          "src/paint/surface.js",
+          "src/paint/ease.js",
+          "src/paint/inset.js",
+          "src/paint/ad-layout.js",
+          "src/paint/ornament.js",
+          "src/monetize/rail.js",
+          "src/host/persist.js",
+          "src/host/vault.js"
+        ]
+      },
+      {
+        "level": 3,
+        "files": [
+          "game.js",
+          "src/boot/launch.js",
+          "src/host/runtime-host.js",
+          "src/host/canvas.js"
+        ]
+      }
+    ]
+  }
+}
