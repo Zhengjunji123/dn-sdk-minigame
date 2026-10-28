@@ -1,26 +1,25 @@
 /**
- * 消消类002 · 微信/抖音原生 Canvas 入口
+ * SDK 演示壳（保留 monetize 能力模块，无棋盘玩法）
  *
  * 启动顺序：
- *   bindMainSdk()（主包同步挂 DH SDK）
- *   → startApp()（ScreenFlow + splash/lobby/arena）
- *   → GameGlobal.sdkReady = Deploy.readyAsync(ext) 登录
- *       → AD.appLaunch / preloadADAsync
- *       → Deploy.getAdvertConfigAsync → applyAdvertEntryConfig / applyClickRewardConfig
- *       → GameGlobal.entryFlowPromise = startEntryFlow()（入场强变现 / 宝箱，冷启动只跑一次）
- *       → registerAdSlot(global_time_1/2)
- *   wx.onShow / onHide → AD.appShow / appHide
+ *   bindMainSdk()
+ *   → Deploy.readyAsync(ext)
+ *   → getAdvertConfigAsync → applyAdvertEntryConfig / applyClickRewardConfig
+ *   → startEntryFlow()
+ *   → AD.appLaunch / preloadADAsync
+ *   → onShow / onHide → AD.appShow / appHide
  */
-// 尽早挂 tt.onShow，供侧边栏复访判断
-import './src/monetize/rail.js';
-import startApp from './src/boot/launch.js';
 import { bindMainSdk } from './src/monetize/dh-bind.js';
-import { getHost } from './src/host/runtime-host.js';
 import { applyAdvertEntryConfig, startEntryFlow } from './src/monetize/entry-pipe.js';
 import { applyClickRewardConfig } from './src/monetize/tip-reward.js';
-// ext 必须主包静态引入：动态 import 会得到空 Module，SDK 会当成没传配置
 import extConfig from './js/sdk/ext.js';
 import GameConfig from './src/conf/root.js';
+
+function getHost() {
+  if (typeof wx !== 'undefined' && wx) return wx;
+  if (typeof tt !== 'undefined' && tt) return tt;
+  return {};
+}
 
 function assertExtConfig(cfg) {
   if (!cfg || typeof cfg !== 'object' || !cfg.appId || !Array.isArray(cfg.advertis)) {
@@ -31,18 +30,13 @@ function assertExtConfig(cfg) {
 
 let sdkBag = null;
 try {
-  // SDK 在主包：同步挂上，强变现不必等玩法资源
   sdkBag = bindMainSdk();
 } catch (err) {
-  console.error('[SDK] 绑定失败，按无广告模式继续', err);
+  console.error('[SDK] 绑定失败', err);
 }
-
-// 游戏主循环先跑（Loading 立即可见），SDK 登录 / 入场漏斗并行
-startApp();
 
 GameGlobal.sdkReady = (async function initSdk() {
   if (!sdkBag) {
-    // 无 SDK：不跑入场漏斗（AD.show 全是 no-op，跑了只会空等超时）
     applyAdvertEntryConfig(null);
     applyClickRewardConfig(null);
     GameGlobal.entryFlowPromise = Promise.resolve({ ok: false, skipped: true, reason: 'sdk_unbound' });
@@ -53,7 +47,6 @@ GameGlobal.sdkReady = (async function initSdk() {
     const config = assertExtConfig(extConfig);
     console.log('[ext] ready', config.appId, 'advertis=', config.advertis.length);
 
-    // 登录 + 注入配置 + 拉功能支持配置
     await Deploy.readyAsync(config);
     console.log('[Deploy] readyAsync done');
 
@@ -66,15 +59,10 @@ GameGlobal.sdkReady = (async function initSdk() {
         .then(() => AD.preloadADAsync())
         .then(() => console.log('[AD] preloadADAsync done'))
         .catch((err) => console.warn('[AD] preloadADAsync', err));
-    } else {
-      console.log('[AD] adEnabled=false，跳过 appLaunch / preload');
     }
 
     try {
       const advertConfig = await Deploy.getAdvertConfigAsync();
-      const { entry, clickReward } = advertConfig || {};
-      console.log('[Deploy] advertConfig.entry', entry);
-      console.log('[Deploy] advertConfig.clickReward', clickReward);
       applyAdvertEntryConfig(advertConfig);
       applyClickRewardConfig(advertConfig);
       GameGlobal.advertConfig = advertConfig || null;
@@ -84,9 +72,7 @@ GameGlobal.sdkReady = (async function initSdk() {
       applyClickRewardConfig(null);
     }
 
-    // 配置到位即 kick（adEnabled=false 时 entry 会立刻 skip）
     GameGlobal.entryFlowPromise = startEntryFlow();
-    console.log('[entry] kicked after getAdvertConfigAsync (preload in flight)');
 
     if (adsOn) {
       preloadP
@@ -102,7 +88,6 @@ GameGlobal.sdkReady = (async function initSdk() {
     console.error('[SDK] 启动失败', err);
     applyAdvertEntryConfig(null);
     applyClickRewardConfig(null);
-    // 与业务约定一致：此处不 kick，match 进场时按本地配置自行 startEntryFlow
     return { ok: false, error: err };
   }
 })();

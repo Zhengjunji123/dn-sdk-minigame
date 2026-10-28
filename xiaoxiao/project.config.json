@@ -1,5 +1,5 @@
 {
-  "description": "消消类002",
+  "description": "SDK 演示壳（无玩法）",
   "setting": {
     "urlCheck": false,
     "es6": true,
@@ -29,7 +29,7 @@
   "compileType": "game",
   "libVersion": "3.15.3",
   "appid": "wxa227cb92175cfbe7",
-  "projectname": "xiaoxiaolei-002",
+  "projectname": "xiaoxiao-sdk-shell",
   "condition": {
     "search": {
       "current": -1,
@@ -56,22 +56,6 @@
         "type": "folder"
       },
       {
-        "value": "tests",
-        "type": "folder"
-      },
-      {
-        "value": "tools",
-        "type": "folder"
-      },
-      {
-        "value": ".fortify",
-        "type": "folder"
-      },
-      {
-        "value": "__fortify__",
-        "type": "folder"
-      },
-      {
         "value": "node_modules",
         "type": "folder"
       },
@@ -85,10 +69,6 @@
       },
       {
         "value": "js/sdk/projectList.json",
-        "type": "file"
-      },
-      {
-        "value": "package-lock.json",
         "type": "file"
       }
     ],

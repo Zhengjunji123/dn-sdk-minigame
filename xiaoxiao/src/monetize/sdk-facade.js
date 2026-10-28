@@ -1,6 +1,6 @@
 /**
  * 主包侧 SDK 代理：真实模块在主包 js/sdk/sdk.js，启动时由 bindMainSdk 挂到 GameGlobal.__DH_SDK。
- * SDK 未绑定 / 方法缺失时返回 no-op，业务无需判空。
+ * SDK 未绑定 / 方法缺失时返回 no-op。
  */
 
 function bag() {
@@ -39,10 +39,7 @@ export const Deploy = wrap('Deploy');
 export const Track = wrap('Track');
 export const DataNexus = wrap('DataNexus');
 
-/**
- * 与统一 SDK / shared SDK 一致的 DataNexus 道具枚举。
- * 002 玩法映射：刷新方块 → SHUFFLE(20)，复活 → OTHER(46)。
- */
+/** DataNexus IAA 道具枚举（与统一 SDK 一致） */
 export const IAA_ITEM = Object.freeze({
   UNDO: 15,
   SHUFFLE: 20,

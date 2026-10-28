@@ -1,32 +1,28 @@
-# 消消类002
+# xiaoxiao · SDK + 变现模块壳
 
-原生 Canvas 木块放置益智小游戏（8×8 / 宝石目标）。已接入 DH 小游戏 SDK（`js/sdk/` + `src/monetize/*`）：入场强变现 / 开宝箱、玩法内 native/grid、复活/刷新激励。
+棋盘 / 关卡 / 大厅等玩法已去除。  
+保留 DH SDK 初始化，以及以下变现相关模块与符号。
+
+## 保留模块
+
+| 文件 | 关键符号 |
+| --- | --- |
+| `src/monetize/treasure.js` | `_clearFeedIdleTimer`、`_displayProgress` |
+| `src/paint/chips.js` | `makeVerticalGradient`、`drawWrappedLabel` |
+| `src/monetize/arena-ads.js` | 玩法常驻广告 / 道具激励 |
+| `src/monetize/chapter-quiz.js` | `LEVEL_QUIZ_TYPE` |
+| `src/monetize/tip-reward.js` | `applyClickRewardConfig` |
+
+配套依赖：`entry-pipe`、`entry-helpers`、`ads-conf`、`ad-layout`、`inset`、`media`、`canvas`、`runtime-host`、`conf/root`、`board/grid-rules`；宝箱图 `images/Loot.png`、`Looted.png`。
 
 ## 打开方式
 
-用微信 / 抖音开发者工具打开本目录。`project.config.json` / `js/sdk/ext.js` 的 appId 以仓库 `GAMES.md` 为准。
+用微信 / 抖音开发者工具打开本目录。
 
-## 玩法
+## 启动流程
 
-1. Loading 结束后直进对局（`lobbyEnabled: false`）。
-2. 开局弹出「关卡目标」：收集指定数量绿宝石即可过关。
-3. 底部 3 个木质多格方块，部分格子自带宝石；拖到 8×8 棋盘放置。
-4. 填满整行或整列消除；消掉的宝石计入「剩余」目标。
-5. 无合法落点弹出「没位置啦」：立即复活 / 刷新方块 / 重开本关。
-6. 底栏「刷新 / 重开 / 跳过」。
-
-## 代码结构
-
-```text
-game.js                 入口：bindMainSdk + startApp + sdkReady
-src/boot/launch.js      ScreenFlow + 主循环
-src/nav/flow.js         屏幕路由
-src/screens/            splash / lobby / arena
-src/board/              grid-rules / puzzle-core / chapter-data
-src/paint/              绘制与 HUD
-src/monetize/           入场漏斗 / 宝箱 / 局内广告
-src/host/               平台、画布、存档、音频
-src/conf/               运行时配置
-js/sdk/                 DH SDK + ext.js
-tests/puzzle-smoke.mjs
-```
+1. `bindMainSdk()`
+2. `Deploy.readyAsync(ext)`
+3. `getAdvertConfigAsync` → `applyAdvertEntryConfig` / `applyClickRewardConfig`
+4. `startEntryFlow()`
+5. `onShow` / `onHide` → `AD.appShow` / `appHide`
