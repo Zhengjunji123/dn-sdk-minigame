@@ -162,6 +162,19 @@ export function hideAllPlayAds() {
   hideCapsuleGridAd();
 }
 
+/** 开宝箱前：暂停玩法常驻广告，避免原生层盖住 Canvas 宝箱 */
+export function hidePlayAdsForChest() {
+  GameGlobal.playAdsPausedForChest = true;
+  hideAllPlayAds();
+  hideGlobalTimedAds();
+}
+
+/** 宝箱结束后：恢复玩法常驻广告（treasure.js 通过 GameGlobal.restorePlayAdsAfterChest 回调） */
+export function restorePlayAdsAfterChest() {
+  GameGlobal.playAdsPausedForChest = false;
+  showAllPlayAds();
+}
+
 /** 宝箱期间连全局定时位也压掉（可能盖住宝箱） */
 export function hideGlobalTimedAds() {
   try {

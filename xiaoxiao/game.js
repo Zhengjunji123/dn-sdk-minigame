@@ -12,8 +12,16 @@
 import { bindMainSdk } from './src/monetize/dh-bind.js';
 import { applyAdvertEntryConfig, startEntryFlow } from './src/monetize/entry-pipe.js';
 import { applyClickRewardConfig } from './src/monetize/tip-reward.js';
+import {
+  hidePlayAdsForChest,
+  restorePlayAdsAfterChest,
+} from './src/monetize/arena-ads.js';
 import extConfig from './js/sdk/ext.js';
 import GameConfig from './src/conf/root.js';
+
+// treasure.js 通过 GameGlobal 回调恢复玩法广告
+GameGlobal.hidePlayAdsForChest = hidePlayAdsForChest;
+GameGlobal.restorePlayAdsAfterChest = restorePlayAdsAfterChest;
 
 function getHost() {
   if (typeof wx !== 'undefined' && wx) return wx;

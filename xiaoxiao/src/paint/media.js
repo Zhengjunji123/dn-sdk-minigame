@@ -1,49 +1,12 @@
 /**
- * 主包图片资源按 key 加载与缓存。
- * 首页 / 加载页走原素材；对局填充块与界面为矢量绘制。
- * 侧边栏引导图仍走 sidebar-assets.js。
+ * 资源加载（仅宝箱等变现 UI 所需，无玩法皮肤）。
  */
 import { getHost } from '../host/runtime-host.js';
-import { BLANK_TILE_SKIN, TILE_SKIN_COUNT } from '../board/grid-rules.js';
 
 export const ASSET_PATHS = Object.freeze({
-  splashBg: 'images/bg.png',
-  splashLogo: 'images/logo.png',
-  musicOn: 'images/musicIcon.png',
-  musicOff: 'images/no-musicIcon.png',
-  voxOn: 'images/voxIcon.png',
-  voxOff: 'images/no-voxIcon.png',
-  startBtn: 'images/btn-start.png',
-  popTitle: 'images/popTitle.png',
-  homeIcon: 'images/homeIcon.png',
-  arenaBg: 'images/homeBg.png',
-  settingIcon: 'images/settingIcon.png',
-  goalPop: 'images/mubiaoPop.png',
-  toolRefresh: 'images/shuaxinIcon.png',
-  toolRestart: 'images/congkaiIcon.png',
-  toolSkip: 'images/passIcon.png',
-  tileBlank: 'images/whiteIcon.png',
-  tile1: 'images/icon01.png',
-  tile2: 'images/icon02.png',
-  tile3: 'images/icon03.png',
-  tile4: 'images/icon04.png',
-  tile5: 'images/icon05.png',
-  tile6: 'images/icon06.png',
-  tile7: 'images/icon07.png',
-  tile8: 'images/icon08.png',
-  tile9: 'images/icon09.png',
-  tile10: 'images/icon10.png',
   chestLoot: 'images/Loot.png',
   chestLooted: 'images/Looted.png',
-  hpBolt: 'images/icon-hp.png',
 });
-
-export function tileAssetKey(skin) {
-  const raw = Math.floor(Number(skin) || 0);
-  if (raw <= BLANK_TILE_SKIN) return 'tileBlank';
-  const n = Math.max(1, Math.min(TILE_SKIN_COUNT, raw));
-  return `tile${n}`;
-}
 
 export const ASSET_KEYS = Object.freeze(Object.keys(ASSET_PATHS));
 
@@ -140,7 +103,6 @@ export function drawImageContain(ctx, img, x, y, w, h) {
   return true;
 }
 
-/** 按 key 绘制；资源缺失返回 false，调用方可画兜底图形 */
 export function drawImageAsset(ctx, key, x, y, w, h, mode = 'contain') {
   const img = getAsset(key);
   if (!img) return false;
